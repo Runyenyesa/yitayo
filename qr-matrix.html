@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yitayo - MoWT Asset Matrix</title>
+    <script src="https://tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen p-6">
+
+    
+    <div class="border-b border-slate-800 pb-4 mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h1 class="text-2xl font-black tracking-tight text-white">QR Secure Asset Print Matrix</h1>
+            <p class="text-xs text-slate-400 mt-1">Generate dynamic cryptographic vinyl templates for newly deployed Kayoora configurations.</p>
+        </div>
+        <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-all">
+            + Provision New Fleet Item
+        </button>
+    </div>
+
+    <!-- Layout Grid Matrix split -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Left: Current Vinyl Fleet Ledger -->
+        <div class="lg:col-span-2 space-y-4">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 px-1">Registered System Asset Registries</h3>
+            
+            <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden text-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-950 text-slate-400 text-xs uppercase font-mono tracking-wider border-b border-slate-700">
+                            <th class="p-4">Bus Config Asset</th>
+                            <th class="p-4">Chassis Code</th>
+                            <th class="p-4">Assigned Line Space</th>
+                            <th class="p-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700/50">
+                        <tr class="hover:bg-slate-750/30">
+                            <td class="p-4 font-bold text-white">KAYOORA-KB-01</td>
+                            <td class="p-4 font-mono text-xs text-slate-400">KMC-EV-2026-0091A</td>
+                            <td class="p-4 text-emerald-400">Jinja Road - Mukono Line</td>
+                            <td class="p-4 text-right">
+                                <button class="text-xs bg-slate-900 text-slate-300 border border-slate-700 px-2.5 py-1 rounded hover:bg-slate-700">Preview Layout</button>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-slate-750/30">
+                            <td class="p-4 font-bold text-white">KAYOORA-KB-02</td>
+                            <td class="p-4 font-mono text-xs text-slate-400">KMC-EV-2026-0094B</td>
+                            <td class="p-4 text-emerald-400">Northern Bypass Loop</td>
+                            <td class="p-4 text-right">
+                                <button class="text-xs bg-blue-600 text-white px-2.5 py-1 rounded hover:bg-blue-700">Selected</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Right: Real-time High Resolution Print Template Mock Generator -->
+        <div class="bg-slate-800 rounded-xl border border-slate-700 p-5 space-y-6 flex flex-col justify-between">
+            <div class="space-y-4">
+                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Vinyl Printing Layout Template Generator</h3>
+                
+                <!-- Structural Representation of the Asset Identification Code Sheet Layout -->
+                <div class="bg-white text-slate-900 p-6 rounded-lg text-center space-y-4 shadow-inner max-w-[240px] mx-auto">
+                    <div class="border-2 border-slate-900 p-2 font-mono text-[10px] tracking-widest uppercase font-bold">
+                        Ministry of Works & Transport
+                    </div>
+                    
+                    <!-- Simulating a complex high density QR matrix system array grid block element -->
+                    <div class="w-36 h-36 bg-slate-200 border-4 border-slate-900 flex flex-wrap p-3 mx-auto gap-1 items-center justify-center relative">
+                        <div class="w-8 h-8 bg-slate-900 absolute top-2 left-2"></div>
+                        <div class="w-8 h-8 bg-slate-900 absolute top-2 right-2"></div>
+                        <div class="w-8 h-8 bg-slate-900 absolute bottom-2 left-2"></div>
+                        <span class="font-mono text-[9px] font-bold text-slate-500 uppercase">YITAYO SECURE MESH</span>
+                    </div>
+
+                    <div class="space-y-0.5">
+                        <h4 class="font-black text-lg tracking-tight font-sans">BUS CONFIG: KB-02</h4>
+                        <p class="text-[9px] font-mono text-slate-500 uppercase font-semibold">Scan to track route & check-in safely</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <button class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3 rounded-lg text-xs transition-all uppercase tracking-wider">
+                    🖨️ Send to Heavy Duty Plotter Printer
+                </button>
+                <p class="text-[10px] text-slate-400 text-center">Templates contain cryptographic security fingerprints preventing static cloning fraud copies.</p>
+            </div>
+        </div>
+
+    </div>
+ <script src="app.js"></script>
+</body>
+</html>

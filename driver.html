@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yitayo - Driver Console</title>
+    <script src="https://tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4">
+
+    <!-- Top Operator Metadata Ribbon Grid -->
+    <div class="bg-slate-800 rounded-xl p-4 border border-slate-700 flex justify-between items-center">
+        <div>
+            <h1 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Console Terminal</h1>
+            <p class="text-lg font-black text-white font-mono">DRIVER ID: #4092</p>
+        </div>
+        <div class="bg-blue-500/10 text-blue-400 border border-blue-500/30 text-xs font-mono px-3 py-1 rounded">
+            VEHICLE: KB-01
+        </div>
+    </div>
+
+    <!-- Dynamic Fleet State Workspace Core Card -->
+    <div class="my-auto space-y-4">
+        
+        <!-- Active Shift Operations Status Summary Screen Module -->
+        <div class="bg-slate-800 rounded-2xl p-6 border border-slate-700 space-y-6">
+            <div class="flex justify-between items-center">
+                <span class="text-slate-400 text-sm font-semibold uppercase">Current Operations Status</span>
+                <span class="bg-emerald-500/20 text-emerald-400 text-xs font-bold px-2 py-0.5 rounded border border-emerald-500/30">SHIFT ACTIVE</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                    <span class="text-xs text-slate-500 uppercase block font-medium">Logged Grid Beacons</span>
+                    <span class="text-3xl font-black text-white font-mono mt-1">34</span>
+                    <span class="text-[10px] text-emerald-400 block mt-0.5">Passengers Tracking Live</span>
+                </div>
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                    <span class="text-xs text-slate-500 uppercase block font-medium">Trip Target Speed</span>
+                    <span class="text-3xl font-black text-white font-mono mt-1">42</span>
+                    <span class="text-[10px] text-slate-400 block mt-0.5">Kilometers Per Hour</span>
+                </div>
+            </div>
+
+            <!-- Route Management Dropdowns Section Simulation -->
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-slate-400 uppercase">Assigned Transit Route Grid</label>
+                <div class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 font-medium text-sm text-slate-200">
+                    Kampala CBD ➔ Nakawa ➔ Banda (Return)
+                </div>
+            </div>
+        </div>
+
+        <!-- Nighttime System Lockdown Safety Trigger Module Box -->
+        <div class="bg-slate-800 rounded-2xl p-6 border border-blue-500/40 bg-gradient-to-br from-slate-800 to-blue-950/20 space-y-4">
+            <div>
+                <h3 class="font-bold text-white text-base">End Shift & Geo-Lock Vehicle</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Arrived back at the Ministry Terminal Depot? Scan the fixed stall code to lock down operations safely.</p>
+            </div>
+            
+            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all text-sm tracking-wide shadow-lg flex items-center justify-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+                <span>SCAN STATION DEPOT QR CODE</span>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Bottom Operator Broadcast Trigger Panel Section -->
+    <button class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 rounded-xl transition-all tracking-wide text-sm">
+        BROADCAST MECHANICAL FAULT ALERT TO MoWT
+    </button>
+ <script src="app.js"></script>
+</body>
+</html>

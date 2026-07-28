@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yitayo - Passenger Portal</title>
+    <script src="https://tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4">
+
+    <!-- Top Status Header -->
+    <div class="bg-slate-800 rounded-xl p-4 border border-slate-700 flex justify-between items-center">
+        <div>
+            <span class="text-xs font-mono uppercase tracking-wider text-emerald-400">Yitayo Secure Connected Ride</span>
+            <h1 class="text-xl font-black text-white">Kayoora E-Transit</h1>
+        </div>
+        <div class="bg-emerald-500 text-slate-900 text-xs font-bold px-2.5 py-1 rounded-full animate-pulse">
+            ● GPS ACTIVE
+        </div>
+    </div>
+
+    <!-- Main Scan Verification Card -->
+    <div class="bg-slate-800 rounded-2xl p-6 border-2 border-emerald-500 my-auto shadow-xl text-center space-y-6">
+        <div class="w-16 h-16 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto border border-emerald-500/30">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        
+        <div>
+            <h2 class="text-2xl font-bold text-white">Successfully Boarded!</h2>
+            <p class="text-slate-400 text-sm mt-1">Your device is safely anchoring this vehicle's live transit grid location.</p>
+        </div>
+
+        <!-- Real-time Connected Ride Metadata Details -->
+        <div class="bg-slate-900/60 rounded-xl p-4 border border-slate-700 text-left space-y-3 font-mono text-sm">
+            <div class="flex justify-between">
+                <span class="text-slate-500">BUS ID:</span>
+                <span class="text-white font-bold">KAYOORA-KB-01</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-500">CURRENT ROUTE:</span>
+                <span class="text-emerald-400">Jinja Road ➔ Nakawa</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-500">NEXT STATION:</span>
+                <span class="text-white">Lugogo Bypass Stage</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-slate-500">EST. ARRIVAL:</span>
+                <span class="text-white">7 Mins</span>
+            </div>
+        </div>
+
+        <div class="bg-slate-900 p-3 rounded-lg border border-slate-700 text-xs text-slate-400">
+            🔒 Your data privacy is guaranteed. Location token data is encrypted, aggregated, anonymized, and automatically drops when you exit this vehicle route space.
+        </div>
+    </div>
+
+    <!-- Bottom Action Ribbon Panel Layout -->
+    <div class="space-y-2">
+        <button class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold py-3.5 rounded-xl transition-all tracking-wide">
+            View Live Route Map
+        </button>
+        <button class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-3 rounded-xl transition-all text-sm border border-slate-700">
+            Report Transit Emergency / Incident
+        </button>
+    </div>
+ <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yitayo - Public Commuter Portal</title>
+    <script src="https://tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col">
+
+    
+    <header class="bg-slate-900 border-b border-slate-800 p-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <div class="bg-emerald-500 text-slate-950 font-black px-2.5 py-0.5 rounded text-lg">Y</div>
+            <span class="font-bold text-white tracking-wide">Yitayo Commuter</span>
+        </div>
+        <span class="text-xs bg-slate-800 text-slate-400 px-2.5 py-1 rounded-full border border-slate-700">Kampala Met Grid</span>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 max-w-xl mx-auto w-full space-y-4">
+        
+        <!-- Live Search Bar -->
+        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2 shadow-md">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400">Where are you going today?</h2>
+            <div class="relative">
+                <input type="text" placeholder="Search stage (e.g., Nakawa, Wandegeya, Banda)..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3.5 pl-10 text-sm text-slate-200 focus:outline-none focus:border-emerald-500">
+                <span class="absolute left-3.5 top-4 text-slate-500 text-sm">🔍</span>
+            </div>
+        </div>
+
+        <!-- Live Bus Stops Grid Status -->
+        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 pt-2 px-1">Active Kayoora Corridors</h3>
+        
+        <div class="space-y-3">
+            <!-- Route Corridor 1 -->
+            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="font-bold text-white">Jinja Road - Mukono Line</h4>
+                        <p class="text-xs text-slate-400">Via Lugogo, Nakawa, Banda</p>
+                    </div>
+                    <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2 py-0.5 rounded font-mono font-bold">3 BUSES LIVE</span>
+                </div>
+                
+                <!-- Stop Timeline / ETA Tracker -->
+                <div class="border-l border-slate-700 ml-2 pl-4 space-y-3 pt-1 text-xs">
+                    <div class="relative">
+                        <span class="absolute -left-[21px] top-0.5 bg-emerald-500 w-2.5 h-2.5 rounded-full ring-4 ring-emerald-950"></span>
+                        <div class="flex justify-between">
+                            <span class="text-slate-300 font-medium">Nakawa Stage</span>
+                            <span class="text-emerald-400 font-mono font-bold">Bus KB-01 arriving in 4 mins</span>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute -left-[21px] top-0.5 bg-slate-700 w-2.5 h-2.5 rounded-full ring-4 ring-slate-950"></span>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Banda Stage</span>
+                            <span class="text-slate-500 font-mono">Next bus expected 08:45 AM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Route Corridor 2 -->
+            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="font-bold text-white">Northern Bypass Loop</h4>
+                        <p class="text-xs text-slate-400">Via Busega, Kisaasi, Naalya</p>
+                    </div>
+                    <span class="bg-amber-500/10 text-amber-400 text-xs px-2 py-0.5 rounded font-mono font-bold">DELAY WARNING</span>
+                </div>
+                
+                <div class="border-l border-slate-700 ml-2 pl-4 space-y-3 pt-1 text-xs">
+                    <div class="relative">
+                        <span class="absolute -left-[21px] top-0.5 bg-amber-500 w-2.5 h-2.5 rounded-full ring-4 ring-amber-950"></span>
+                        <div class="flex justify-between">
+                            <span class="text-slate-300 font-medium">Kisaasi Flyover</span>
+                            <span class="text-amber-400 font-mono font-bold">Bus KB-02 stalled in heavy traffic (18 mins away)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Dynamic Boarding Prompt Footer Banner -->
+    <div class="bg-emerald-950/40 border-t border-emerald-800/50 p-4 text-center space-y-2 mt-auto">
+        <p class="text-xs text-emerald-300 font-medium">Already seated inside a Kayoora e-Bus right now?</p>
+        <button class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-xs font-bold px-4 py-2 rounded-lg transition-all tracking-wide">
+            ⚡ Tap to Scan Dashboard QR Code & Check In
+        </button>
+    </div>
+ <script src="app.js"></script>
+</body>
+</html>
