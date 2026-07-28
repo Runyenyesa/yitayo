@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Selected": "qr-matrix.html",
         
         // Passenger Interactions
-        "View Live Route Map": "index.html",
+        "View Live Route Map": "admin.html",
         "Tap to Scan Dashboard QR Code & Check In": "passenger.html",
         "⚡ Tap to Scan Dashboard QR Code & Check In": "passenger.html",
         
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
  * Handles complex layout flows like list clicks or structural link ribbons
  */
 function setupSpecialPageTriggers(pageName) {
-    // If we are on the main Public Explorer landing page
+    // If we are on the public explorer landing page
     if (pageName === "index.html" || pageName === "") {
         // Look for the Active Corridor cards
         const routeCards = document.querySelectorAll(".bg-slate-900.p-4.rounded-xl");
