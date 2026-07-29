@@ -1,0 +1,47 @@
+{
+  "system_name": "Yitayo",
+  "target_infrastructure": "Kayoola EVS Fleet - Kampala Metropolitan Area",
+  "client_target": "Ministry of Works and Transport (MoWT) Uganda",
+  "version": "1.0.0-alpha",
+  "architecture_type": "Zero-Hardware Citizen-Sensor Network",
+  "routing_engine": {
+    "controller": "app.js",
+    "strategy": "Deterministic Algorithmic Matching"
+  },
+  "modules": [
+    {
+      "file": "index.html",
+      "scope": "Public Commuter Portal",
+      "description": "Corridor tracking analytics and live passenger route ETA updates."
+    },
+    {
+      "file": "passenger.html",
+      "scope": "Mobile Scan Portal",
+      "description": "Captures location updates via dynamic vinyl QR codes to anchor vehicles."
+    },
+    {
+      "file": "driver.html",
+      "scope": "Operator Console Terminal",
+      "description": "Shift initialization layer and mechanical fault alert broadcaster."
+    },
+    {
+      "file": "admin.html",
+      "scope": "MoWT Central Command Room",
+      "description": "Real-time fleet tracking map using open-source Leaflet.js layer bounds."
+    },
+    {
+      "file": "qr-matrix.html",
+      "scope": "Asset Provisioning Engine",
+      "description": "Cryptographic vinyl sticker print engine for newly deployed chassis nodes."
+    },
+    {
+      "file": "analytics.html",
+      "scope": "Operational Intelligence Board",
+      "description": "EV battery efficiency metrics (kWh/km) synced from charging dock portals."
+    }
+  ],
+  "security_protocols": {
+    "daytime_tracking": "Encrypted, aggregated, and anonymized short-lived background tokens",
+    "nighttime_locking": "Closed-loop dual verification via driver depot scan and smart charger electrical handshakes"
+  }
+}
