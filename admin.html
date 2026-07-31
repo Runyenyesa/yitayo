@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitayo — MoWT Command Room</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .clash { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; letter-spacing: -0.5px; }
         #map { height: 100%; width: 100%; z-index: 0; }
         .bus-marker { background: #00A651; border: 3px solid white; border-radius: 50%; width: 18px; height: 18px; box-shadow: 0 0 12px rgba(0,166,81,0.8); animation: busGlow 2s infinite; }
         @keyframes busGlow { 0%,100%{box-shadow:0 0 8px rgba(0,166,81,0.8)} 50%{box-shadow:0 0 20px rgba(0,166,81,1)} }
@@ -14,55 +19,66 @@
         .terminal-marker { background: #FFD700; border: 2px solid #00A651; border-radius: 50%; width: 14px; height: 14px; }
         .leaflet-popup-content-wrapper { background: #1e293b; color: white; border: 1px solid #334155; border-radius: 12px; }
         .leaflet-popup-tip { background: #1e293b; }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+        /* bus-dark.jpg as sidebar footer bg */
+        .sidebar-footer {
+            background: linear-gradient(to top, rgba(10,15,30,0.97) 0%, rgba(10,15,30,0.85) 100%),
+                        url('bus-dark.jpg') center center / cover no-repeat;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans h-screen flex flex-col overflow-hidden">
+<body class="bg-slate-950 text-slate-100 h-screen flex flex-col overflow-hidden">
 
-    <!-- Top Command Bar -->
-    <div class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex items-center justify-between z-10 flex-shrink-0">
+    <!-- Top Bar -->
+    <div class="bg-slate-900 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between z-10 flex-shrink-0">
         <div class="flex items-center gap-3">
-            <div class="bg-emerald-500 text-slate-950 font-black px-2.5 py-0.5 rounded text-lg cursor-pointer" onclick="window.location.href='explore.html'">Y</div>
+            <div class="bg-emerald-500 text-slate-950 font-black px-2.5 py-0.5 rounded-lg text-lg cursor-pointer" onclick="window.location.href='explore.html'">Y</div>
             <div>
-                <h1 class="font-black text-white text-sm leading-none">Yitayo Command Room</h1>
-                <p class="text-xs text-slate-400">Ministry of Works & Transport — Kampala Metro Grid</p>
+                <h1 class="clash text-white text-sm leading-none">Command Room</h1>
+                <p class="text-[10px] text-slate-400 leading-none mt-0.5">Ministry of Works & Transport · Kampala Metro Grid</p>
             </div>
         </div>
         <div class="flex items-center gap-2">
-            <div class="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-1.5 rounded-full">
-                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+            <div class="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-1.5 rounded-full font-bold">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full pulse"></span>
                 <span id="liveCount">8 BUSES LIVE</span>
             </div>
-            <button onclick="window.location.href='analytics.html'" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-700 transition-all">View Analytics</button>
-            <button onclick="window.location.href='qr-matrix.html'" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-700 transition-all">QR Matrix</button>
+            <button onclick="window.location.href='analytics.html'" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-700 transition-all hidden sm:block">Analytics</button>
+            <button onclick="window.location.href='qr-matrix.html'" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-700 transition-all hidden sm:block">QR Matrix</button>
         </div>
     </div>
 
-    <!-- Main layout -->
+    <!-- Main -->
     <div class="flex flex-1 overflow-hidden">
 
-        <!-- Left: Fleet Sidebar -->
-        <div class="w-72 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden flex-shrink-0">
+        <!-- Sidebar -->
+        <div class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col overflow-hidden flex-shrink-0">
+
+            <!-- Stats -->
             <div class="p-3 border-b border-slate-800">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Active Fleet — Route E1</h2>
                 <div class="grid grid-cols-2 gap-2">
-                    <div class="bg-slate-800 rounded-lg p-2.5 text-center">
-                        <div class="text-2xl font-black text-white font-mono" id="activeCount">8</div>
-                        <div class="text-[10px] text-slate-400 uppercase">Active</div>
+                    <div class="bg-slate-800 rounded-xl p-2.5 text-center border border-slate-700">
+                        <div class="clash text-2xl text-white" id="activeCount">8</div>
+                        <div class="text-[10px] text-slate-400 uppercase tracking-wider">Active</div>
                     </div>
-                    <div class="bg-slate-800 rounded-lg p-2.5 text-center">
-                        <div class="text-2xl font-black text-emerald-400 font-mono">0</div>
-                        <div class="text-[10px] text-slate-400 uppercase">Faults</div>
+                    <div class="bg-slate-800 rounded-xl p-2.5 text-center border border-slate-700">
+                        <div class="clash text-2xl text-emerald-400">E1</div>
+                        <div class="text-[10px] text-slate-400 uppercase tracking-wider">Route Live</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Bus List -->
+            <!-- Bus list -->
             <div class="flex-1 overflow-y-auto p-3 space-y-2" id="busList"></div>
 
-            <!-- Route Info -->
-            <div class="p-3 border-t border-slate-800 space-y-2">
-                <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400">Route E1 Stops</h3>
+            <!-- Sidebar footer with bus-dark.jpg -->
+            <div class="sidebar-footer p-3 border-t border-slate-800 space-y-2">
+                <h3 class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Route E1 Stops</h3>
                 <div class="space-y-1" id="stopList"></div>
+                <button onclick="window.location.href='explore.html'" class="w-full mt-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold py-2 rounded-lg hover:bg-emerald-500/20 transition-all">
+                    ← Back to Passenger View
+                </button>
             </div>
         </div>
 
@@ -70,27 +86,37 @@
         <div class="flex-1 relative">
             <div id="map" class="absolute inset-0"></div>
 
-            <!-- Floating stats -->
+            <!-- Floating ETA card -->
             <div class="absolute top-3 right-3 z-10 space-y-2">
-                <div class="bg-slate-900/90 backdrop-blur border border-slate-700 rounded-xl p-3 text-xs space-y-1.5">
-                    <div class="text-slate-400 uppercase font-bold tracking-wider text-[10px]">Next Bus · City Square</div>
-                    <div class="text-emerald-400 font-mono font-black text-xl" id="nextEta">4 min</div>
-                    <div class="text-slate-400">KB-03 approaching</div>
+                <div class="bg-slate-900/95 backdrop-blur border border-slate-700 rounded-xl p-3 min-w-44">
+                    <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">Next Bus · City Square</div>
+                    <div class="clash text-emerald-400 text-2xl" id="nextEta">4 min</div>
+                    <div class="text-slate-400 text-xs mt-0.5">KB-03 approaching</div>
                 </div>
-                <div class="bg-slate-900/90 backdrop-blur border border-slate-700 rounded-xl p-3 text-xs">
-                    <div class="text-slate-400 uppercase font-bold tracking-wider text-[10px] mb-1">Flat Fare</div>
-                    <div class="text-white font-black font-mono">1,500 UGX</div>
-                    <div class="text-slate-500 text-[10px]">Cashless only</div>
+                <div class="bg-slate-900/95 backdrop-blur border border-slate-700 rounded-xl p-3">
+                    <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">Flat Fare</div>
+                    <div class="clash text-white text-lg">1,500 <span class="text-xs text-slate-400 font-normal">UGX</span></div>
+                    <div class="text-[10px] text-slate-500">Cashless · MTN · Airtel</div>
+                </div>
+                <!-- bus-kampala.jpg thumbnail -->
+                <div class="bg-slate-900/95 backdrop-blur border border-slate-700 rounded-xl overflow-hidden" style="height:80px">
+                    <img src="bus-kampala.jpg" alt="Kayoola in Kampala" style="width:100%;height:100%;object-fit:cover;opacity:0.8">
                 </div>
             </div>
 
-            <!-- Bottom: Alert bar -->
+            <!-- Bottom status bar -->
             <div class="absolute bottom-0 left-0 right-0 z-10 bg-slate-900/95 backdrop-blur border-t border-slate-800 px-4 py-2 flex items-center justify-between">
-                <div class="flex items-center gap-3 text-xs">
-                    <span class="text-emerald-400 font-bold">● ALL SYSTEMS NOMINAL</span>
-                    <span class="text-slate-500">Last sync: <span id="lastSync">just now</span></span>
+                <div class="flex items-center gap-4 text-xs">
+                    <span class="text-emerald-400 font-bold flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full pulse"></span>
+                        ALL SYSTEMS NOMINAL
+                    </span>
+                    <span class="text-slate-500 hidden sm:block">Last sync: <span id="lastSync">just now</span></span>
                 </div>
-                <button onclick="window.location.href='driver.html'" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all">Driver Console</button>
+                <div class="flex gap-2">
+                    <button onclick="window.location.href='driver.html'" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-all">Driver Console</button>
+                    <button onclick="window.location.href='passenger.html'" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg transition-all">Passenger View</button>
+                </div>
             </div>
         </div>
     </div>
@@ -98,40 +124,34 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="app.js"></script>
 <script>
-// ── REAL KAMPALA COORDINATES ──────────────────────────
 const STOPS = [
     { name: "City Square",  lat: 0.31628,  lng: 32.58219, terminal: true },
     { name: "Nakawa",       lat: 0.33500,  lng: 32.61500, terminal: false },
     { name: "Ntinda",       lat: 0.34200,  lng: 32.62800, terminal: false },
     { name: "Bukoto",       lat: 0.33100,  lng: 32.60200, terminal: false },
     { name: "Kamwokya",     lat: 0.32700,  lng: 32.57900, terminal: false },
-    { name: "Wandegeya",    lat: 0.33800,  lng: 32.57200, terminal: true  },
+    { name: "Wandegeya",    lat: 0.33800,  lng: 32.57200, terminal: true },
 ];
 
 const BUSES = [
-    { id: "KB-01", lat: 0.3190, lng: 32.5900, speed: 38, battery: 82, passengers: 34, status: "active", route: "City Sq → Nakawa" },
-    { id: "KB-02", lat: 0.3310, lng: 32.6050, speed: 42, battery: 67, passengers: 51, status: "active", route: "Nakawa → Ntinda" },
-    { id: "KB-03", lat: 0.3360, lng: 32.6230, speed: 35, battery: 91, passengers: 28, status: "active", route: "Ntinda → Bukoto" },
-    { id: "KB-04", lat: 0.3330, lng: 32.6010, speed: 40, battery: 74, passengers: 43, status: "active", route: "Bukoto → Kamwokya" },
-    { id: "KB-05", lat: 0.3280, lng: 32.5770, speed: 33, battery: 55, passengers: 62, status: "active", route: "Kamwokya → Wandegeya" },
-    { id: "KB-06", lat: 0.3350, lng: 32.5740, speed: 37, battery: 88, passengers: 19, status: "active", route: "Wandegeya → City Sq" },
-    { id: "KB-07", lat: 0.3200, lng: 32.5850, speed: 41, battery: 79, passengers: 37, status: "active", route: "City Sq → Nakawa" },
-    { id: "KB-08", lat: 0.3320, lng: 32.6150, speed: 36, battery: 63, passengers: 45, status: "active", route: "Ntinda → Bukoto" },
+    { id: "KB-01", lat: 0.3190, lng: 32.5900, speed: 38, battery: 82, passengers: 34, route: "City Sq → Nakawa" },
+    { id: "KB-02", lat: 0.3310, lng: 32.6050, speed: 42, battery: 67, passengers: 51, route: "Nakawa → Ntinda" },
+    { id: "KB-03", lat: 0.3360, lng: 32.6230, speed: 35, battery: 91, passengers: 28, route: "Ntinda → Bukoto" },
+    { id: "KB-04", lat: 0.3330, lng: 32.6010, speed: 40, battery: 74, passengers: 43, route: "Bukoto → Kamwokya" },
+    { id: "KB-05", lat: 0.3280, lng: 32.5770, speed: 33, battery: 55, passengers: 62, route: "Kamwokya → Wandegeya" },
+    { id: "KB-06", lat: 0.3350, lng: 32.5740, speed: 37, battery: 88, passengers: 19, route: "Wandegeya → City Sq" },
+    { id: "KB-07", lat: 0.3200, lng: 32.5850, speed: 41, battery: 79, passengers: 37, route: "City Sq → Nakawa" },
+    { id: "KB-08", lat: 0.3320, lng: 32.6150, speed: 36, battery: 63, passengers: 45, route: "Ntinda → Bukoto" },
 ];
 
-// Init map
 const map = L.map('map', { zoomControl: false }).setView([0.327, 32.597], 13);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© CartoDB © OSM'
-}).addTo(map);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '© CartoDB © OSM' }).addTo(map);
 L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-// Draw route line
 const routeCoords = STOPS.map(s => [s.lat, s.lng]);
-routeCoords.push([STOPS[0].lat, STOPS[0].lng]); // close loop
-L.polyline(routeCoords, { color: '#00A651', weight: 4, opacity: 0.8, dashArray: null }).addTo(map);
+routeCoords.push([STOPS[0].lat, STOPS[0].lng]);
+L.polyline(routeCoords, { color: '#00A651', weight: 5, opacity: 0.85 }).addTo(map);
 
-// Draw stops
 STOPS.forEach(stop => {
     const icon = L.divIcon({
         html: `<div class="${stop.terminal ? 'terminal-marker' : 'stop-marker'}"></div>`,
@@ -139,91 +159,75 @@ STOPS.forEach(stop => {
         iconAnchor: stop.terminal ? [7,7] : [5,5],
         className: ''
     });
-    L.marker([stop.lat, stop.lng], { icon })
-        .addTo(map)
-        .bindPopup(`<div class="p-1"><strong class="text-emerald-400">${stop.name}</strong><br><span class="text-xs text-slate-400">Route E1 Stop</span></div>`);
+    L.marker([stop.lat, stop.lng], { icon }).addTo(map)
+        .bindPopup(`<div style="padding:4px"><strong style="color:#00A651">${stop.name}</strong><br><span style="font-size:11px;color:#94a3b8">Route E1 ${stop.terminal ? '· Terminal' : 'Stop'}</span></div>`);
 });
 
-// Draw buses
 const busMarkers = {};
 BUSES.forEach(bus => {
-    const icon = L.divIcon({
-        html: `<div class="bus-marker" title="${bus.id}"></div>`,
-        iconSize: [18,18], iconAnchor: [9,9], className: ''
-    });
-    busMarkers[bus.id] = L.marker([bus.lat, bus.lng], { icon })
-        .addTo(map)
-        .bindPopup(`
-            <div style="min-width:180px;padding:4px">
-                <div style="color:#00A651;font-weight:800;font-size:14px;margin-bottom:6px">🚌 ${bus.id}</div>
-                <div style="font-size:11px;color:#94a3b8;line-height:1.8">
-                    Route: <span style="color:white">${bus.route}</span><br>
-                    Speed: <span style="color:white">${bus.speed} km/h</span><br>
-                    Battery: <span style="color:#00A651">${bus.battery}%</span><br>
-                    Passengers: <span style="color:white">${bus.passengers}</span>
-                </div>
-            </div>
-        `);
+    const icon = L.divIcon({ html: `<div class="bus-marker"></div>`, iconSize: [18,18], iconAnchor: [9,9], className: '' });
+    busMarkers[bus.id] = L.marker([bus.lat, bus.lng], { icon }).addTo(map)
+        .bindPopup(`<div style="min-width:160px;padding:4px">
+            <div style="color:#00A651;font-weight:800;font-size:14px;margin-bottom:6px">🚌 ${bus.id}</div>
+            <div style="font-size:11px;color:#94a3b8;line-height:1.8">
+                Route: <span style="color:white">${bus.route}</span><br>
+                Speed: <span style="color:white">${bus.speed} km/h</span><br>
+                Battery: <span style="color:#00A651">${bus.battery}%</span><br>
+                Passengers: <span style="color:white">${bus.passengers}</span>
+            </div></div>`);
 });
 
-// Render bus list sidebar
+// Bus sidebar
 const busListEl = document.getElementById('busList');
 BUSES.forEach(bus => {
     const div = document.createElement('div');
     div.className = 'bg-slate-800 rounded-xl p-3 border border-slate-700 hover:border-emerald-500/50 cursor-pointer transition-all';
     div.innerHTML = `
-        <div class="flex justify-between items-center mb-2">
-            <span class="font-mono font-bold text-white text-sm">${bus.id}</span>
-            <span class="text-emerald-400 text-[10px] font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full">● LIVE</span>
+        <div class="flex justify-between items-center mb-1.5">
+            <span class="font-mono font-black text-white text-sm">${bus.id}</span>
+            <span class="text-emerald-400 text-[10px] font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">LIVE</span>
         </div>
         <div class="text-[11px] text-slate-400 mb-2">${bus.route}</div>
         <div class="grid grid-cols-3 gap-1 text-center">
-            <div class="bg-slate-900 rounded p-1">
+            <div class="bg-slate-900 rounded-lg p-1.5">
                 <div class="text-white font-mono font-bold text-xs">${bus.speed}</div>
                 <div class="text-[9px] text-slate-500">km/h</div>
             </div>
-            <div class="bg-slate-900 rounded p-1">
+            <div class="bg-slate-900 rounded-lg p-1.5">
                 <div class="font-mono font-bold text-xs ${bus.battery < 60 ? 'text-amber-400' : 'text-emerald-400'}">${bus.battery}%</div>
-                <div class="text-[9px] text-slate-500">battery</div>
+                <div class="text-[9px] text-slate-500">batt</div>
             </div>
-            <div class="bg-slate-900 rounded p-1">
+            <div class="bg-slate-900 rounded-lg p-1.5">
                 <div class="text-white font-mono font-bold text-xs">${bus.passengers}</div>
                 <div class="text-[9px] text-slate-500">riders</div>
             </div>
-        </div>
-    `;
-    div.addEventListener('click', () => {
-        map.flyTo([bus.lat, bus.lng], 16, { duration: 1.5 });
-        busMarkers[bus.id].openPopup();
-    });
+        </div>`;
+    div.addEventListener('click', () => { map.flyTo([bus.lat, bus.lng], 16, { duration: 1.5 }); busMarkers[bus.id].openPopup(); });
     busListEl.appendChild(div);
 });
 
-// Render stop list
+// Stop list
 const stopListEl = document.getElementById('stopList');
-STOPS.forEach((stop, i) => {
+STOPS.forEach(stop => {
     const div = document.createElement('div');
-    div.className = 'flex items-center gap-2 text-xs cursor-pointer hover:text-emerald-400 transition-colors';
-    div.innerHTML = `
-        <div class="w-2 h-2 rounded-full flex-shrink-0 ${stop.terminal ? 'bg-yellow-400' : 'bg-emerald-500'}"></div>
+    div.className = 'flex items-center gap-2 text-xs cursor-pointer hover:text-emerald-400 transition-colors py-0.5';
+    div.innerHTML = `<div class="w-2 h-2 rounded-full flex-shrink-0 ${stop.terminal ? 'bg-yellow-400' : 'bg-emerald-500'}"></div>
         <span class="${stop.terminal ? 'text-yellow-400 font-bold' : 'text-slate-300'}">${stop.name}</span>
-        ${stop.terminal ? '<span class="text-[9px] text-yellow-600 ml-auto">TERM</span>' : ''}
-    `;
+        ${stop.terminal ? '<span class="text-[9px] text-yellow-600 ml-auto">TERM</span>' : ''}`;
     div.addEventListener('click', () => map.flyTo([stop.lat, stop.lng], 16));
     stopListEl.appendChild(div);
 });
 
-// Animate buses slightly every 5 seconds to simulate movement
+// Animate buses
 setInterval(() => {
     BUSES.forEach(bus => {
         bus.lat += (Math.random() - 0.5) * 0.001;
         bus.lng += (Math.random() - 0.5) * 0.001;
         busMarkers[bus.id].setLatLng([bus.lat, bus.lng]);
     });
-    // Update ETA counter
     const eta = document.getElementById('nextEta');
-    const current = parseInt(eta.textContent);
-    eta.textContent = current > 1 ? (current - 1) + ' min' : '1 min';
+    const cur = parseInt(eta.textContent);
+    eta.textContent = (cur > 1 ? cur - 1 : 1) + ' min';
     document.getElementById('lastSync').textContent = new Date().toLocaleTimeString();
 }, 5000);
 </script>

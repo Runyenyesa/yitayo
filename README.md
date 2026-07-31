@@ -1,52 +1,113 @@
-# Yitayo (यीतायो) - Crowdsourced E-Transit Grid for Kampala
+# Yitayo — Backend Integration Guide
 
-**Yitayo** is a high-efficiency, zero-hardware remote vehicle tracking system engineered specifically for the **Kayoola EVS Electric Bus Fleet** operating within the Kampala Metropolitan Area. 
+This `backend/` folder contains the complete production API for the Yitayo Transit Platform.
 
-Developed as a technical proposal for the **Ministry of Works and Transport (MoWT) of Uganda**, Yitayo completely eliminates physical GPS tracking hardware boxes. This removes risks of electrical short-circuits, vandalism, maintenance overheads, and high component replacement costs.
+## Repository Structure
 
----
-
-## 🚀 The Core Breakthrough Architecture
-
-Yitayo operates on a **Citizen-Sensor Network** layout model, dividing tracking into two secure operation loops:
-
-1. **Daytime (Crowdsourced Active Loop):** When a passenger boards a Kayoola bus, they scan a secure, dynamic QR vinyl sticker layout on the vehicle frame. The platform matches passenger mobile background location tokens using **Deterministic Algorithmic Matching**. If multiple passengers follow the exact same velocity and path vector, the system validates the bus's live coordinate tracking space on the map without any hardware on the machine.
-2. **Nighttime (Closed-Loop Geo-Locking):** At the end of a shift, drivers scan a fixed Stall Depot QR code. The system cross-references this with the physical digital signature handshake from the smart **Kiira Motors Corporation (KMC) charging dock infrastructure**, locking the vehicle asset status on the administrative grid.
-
----
-
-## 📂 Project Directory Structure
-
-```text
+```
 yitayo/
-├── explore.html        # Public Commuter Portal & Route ETA Monitor
-├── passenger.html      # Mobile Scan Check-in & Location Anchor Portal
-├── driver.html         # Driver Console Terminal & Night Lock Trigger
-├── admin.html          # Central MoWT Management Control Map Dashboard
-├── qr-matrix.html      # Asset Ledger & Cryptographic Vinyl Print Generator
-├── analytics.html      # EV Battery Telemetry & Energy Grid Monitor Logs
-└── app.js              # Unified Prototype Interactivity & Routing Engine
+├── index.html          ← Your existing frontend (public commuter portal)
+├── passenger.html      ← Your existing frontend
+├── driver.html         ← Your existing frontend
+├── admin.html          ← Your existing frontend
+├── qr-matrix.html      ← Your existing frontend
+├── analytics.html      ← Your existing frontend
+├── app.js              ← Your existing frontend router (to be refactored)
+├── backend/            ← NEW: Production Node.js API
+│   ├── src/
+│   │   ├── app.js                 ← Express server entry
+│   │   ├── config/database.js     ← PostgreSQL pool config
+│   │   ├── middleware/
+│   │   │   └── errorHandler.js    ← Global error handling + Winston logging
+│   │   ├── routes/
+│   │   │   ├── passenger.js       ← POST /checkin, GET /routes, GET /routes/:id/live
+│   │   │   ├── fleet.js           ← GET /live, GET /buses, GET /buses/:id/history
+│   │   │   ├── driver.js          ← POST /shift/start, POST /shift/end, POST /lockdown
+│   │   │   ├── admin.js           ← Dashboard, CRUD buses/drivers/routes, QR provisioning
+│   │   │   └── analytics.js       ← Energy, grid-health, depot-status
+│   │   └── services/
+│   │       └── telemetryService.js ← Deterministic Algorithmic Matching Engine
+│   ├── database/
+│   │   └── schema.sql             ← Full PostgreSQL + PostGIS schema
+│   ├── package.json
+│   ├── docker-compose.yml
+│   ├── Dockerfile
+│   ├── .env.example
+│   └── .gitignore
+└── README.md
 ```
 
----
+## Quick Start
 
-## 🛠️ Interactive Prototype Interface Guide
+### 1. Add backend to your repo
+```bash
+cd yitayo
+git checkout -b backend-phase2
+# Copy the backend/ folder into your repo root
+git add backend/
+git commit -m "feat: add production backend API (Phase 2)"
+git push origin backend-phase2
+```
 
-The frontend prototype relies on a zero-cost open-source mapping architecture layout built with **Tailwind CSS** and **Leaflet.js** to show proof-of-concept without API fee footprints.
+### 2. Configure environment
+```bash
+cd backend
+cp .env.example .env
+# Edit .env with your actual database credentials and secrets
+```
 
-To run or review the platform journey flow locally:
-1. Clone this repository or open the folder spaces.
-2. Launch `explore.html` inside any web browser.
-3. Simulate a commuter step-through flow:
-   - On **`explore.html`**, tap the bottom banner *("Tap to Scan Dashboard QR Code & Check In")*.
-   - On **`passenger.html`**, view the live tracking anchor activation page, then click *("View Live Route Map")*.
-   - Analyze the main **`admin.html`** screen tracking live active simulated nodes over Kampala Central coordinates.
-   - Access **`driver.html`** to execute the end-of-shift protocol simulation, which automatically maps into the deep **`analytics.html`** platform layout frame.
+### 3. Start the database
+```bash
+docker-compose up -d postgres redis
+```
 
----
+### 4. Run migrations
+```bash
+psql $DATABASE_URL -f database/schema.sql
+```
 
-## ⚖️ National Impact & Security Framework
+### 5. Install & run API
+```bash
+npm install
+npm run dev   # Development with nodemon
+# OR
+npm start     # Production
+```
 
-* **Zero Capital Expenditure (CapEx):** Zero procurement overhead for hardware tracking assets across the state-owned Kayoora transport enterprise layout.
-* **100% Tamperproof Infrastructure:** Waterproof, high-durability vinyl print surfaces cannot be unclipped, bypassed, or stolen during routine mechanical maintenance checks.
-* **Data Sovereignty Protection:** All processing, coordination streams, and fleet state datasets are compiled natively, aligning securely with local Ugandan server hosting policies.
+### 6. Refactor your frontend `app.js`
+Replace static data with dynamic API calls. See `backend/FRONTEND_INTEGRATION.md` for the full migration guide.
+
+## API Endpoints Summary
+
+| Endpoint | Method | Description | Used By |
+|----------|--------|-------------|---------|
+| `/api/passenger/checkin` | POST | Passenger QR scan + GPS anchor | passenger.html |
+| `/api/passenger/routes` | GET | List active corridors | index.html |
+| `/api/passenger/routes/:id/live` | GET | Live buses on a corridor | index.html |
+| `/api/fleet/live` | GET | Real-time fleet positions | admin.html |
+| `/api/fleet/buses` | GET | Full fleet registry | qr-matrix.html |
+| `/api/driver/shift/start` | POST | Driver PIN auth + trip start | driver.html |
+| `/api/driver/lockdown` | POST | Depot arrival + charging handshake | driver.html |
+| `/api/admin/dashboard` | GET | Control room metrics | admin.html |
+| `/api/admin/qr-codes` | POST | Generate vinyl QR stickers | qr-matrix.html |
+| `/api/analytics/energy` | GET | kWh/km efficiency | analytics.html |
+| `/api/analytics/grid-health` | GET | Data quality metrics | analytics.html |
+
+## Deployment
+
+The included `docker-compose.yml` is production-ready. For MoWT deployment:
+1. Set `NODE_ENV=production`
+2. Use a managed PostgreSQL instance (AWS RDS, DigitalOcean, or self-hosted)
+3. Configure `DATABASE_URL` with SSL
+4. Set strong `JWT_SECRET` and `ADMIN_API_KEY`
+5. Run behind Nginx or Caddy with reverse proxy + SSL
+
+## Deterministic Algorithm
+
+The core positioning engine (`src/services/telemetryService.js`) converts raw passenger GPS pings into reliable bus positions through:
+- **Weighted Moving Average**: Weights by GPS accuracy, phone battery (jitter proxy), and recency
+- **Statistical Outlier Rejection**: Removes pings beyond 2.5 standard deviations
+- **Confidence Scoring**: 0-100 score based on ping density, cluster tightness, and data freshness
+- **Derived Speed**: Computed from position deltas between time windows
+
+No physical GPS hardware required on the bus.

@@ -5,266 +5,377 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitayo — Powering Uganda's Electric Journey</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
-        body { font-family: 'Space Grotesk', sans-serif; }
-        .bus-anim { animation: slidein 1s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
-        @keyframes slidein { from { transform: translateX(-120%); opacity:0; } to { transform: translateX(0); opacity:1; } }
-        .glow { box-shadow: 0 0 30px rgba(0,166,81,0.3); }
-        .road-line { animation: road 1.5s linear infinite; }
-        @keyframes road { from { transform: translateX(0); } to { transform: translateX(-80px); } }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .clash { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; letter-spacing: -1.5px; }
+        .hero-bg {
+            background: linear-gradient(to bottom, rgba(10,15,30,0.92) 0%, rgba(10,15,30,0.75) 50%, rgba(10,15,30,0.97) 100%),
+                        url('bus-hero.jpg') center center / cover no-repeat;
+            min-height: 100vh;
+        }
         .pulse-ring { animation: pulseRing 2s infinite; }
-        @keyframes pulseRing { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+        @keyframes pulseRing { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.5)} }
+        .fade-up { animation: fadeUp 0.8s ease forwards; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+        .card-hover { transition: all 0.3s cubic-bezier(0.25,0.46,0.45,0.94); }
+        .card-hover:hover { transform: translateY(-4px); border-color: rgba(0,166,81,0.5); }
+        .green-glow { box-shadow: 0 0 40px rgba(0,166,81,0.25); }
+        .img-overlay {
+            position: relative; overflow: hidden; border-radius: 16px;
+        }
+        .img-overlay::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(10,15,30,0.8) 0%, transparent 60%);
+        }
+        .img-overlay img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+<body class="bg-slate-950 text-slate-100 min-h-screen">
 
     <!-- Navbar -->
-    <nav class="bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 py-3 flex items-center justify-between sticky top-0 z-50">
-        <div class="flex items-center gap-2">
-            <div class="bg-emerald-500 text-slate-950 font-black px-2.5 py-0.5 rounded-lg text-xl">Y</div>
-            <span class="font-bold text-white tracking-wide text-lg">Yitayo</span>
-            <span class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full hidden sm:inline">Powering Uganda's Electric Journey</span>
-        </div>
-        <div class="flex items-center gap-2">
-            <a href="admin.html" class="text-slate-400 hover:text-white text-xs px-3 py-1.5 rounded-lg hover:bg-slate-800 transition-all hidden sm:block">Command Room</a>
-            <a href="driver.html" class="text-slate-400 hover:text-white text-xs px-3 py-1.5 rounded-lg hover:bg-slate-800 transition-all hidden sm:block">Driver Console</a>
-            <a href="passenger.html" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg transition-all flex items-center gap-1">
-                <span class="w-1.5 h-1.5 bg-slate-950 rounded-full pulse-ring inline-block"></span> Board a Bus
-            </a>
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/60 px-4 py-3">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <div class="bg-emerald-500 text-slate-950 font-black px-2.5 py-1 rounded-lg text-lg leading-none">Y</div>
+                <span class="font-black text-white text-xl tracking-tight">Yitayo</span>
+            </div>
+            <div class="hidden md:flex items-center gap-1">
+                <a href="admin.html" class="text-slate-400 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-slate-800 transition-all">Command Room</a>
+                <a href="driver.html" class="text-slate-400 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-slate-800 transition-all">Driver Console</a>
+                <a href="analytics.html" class="text-slate-400 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-slate-800 transition-all">Analytics</a>
+                <a href="passenger.html" class="ml-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-sm font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 bg-slate-950 rounded-full pulse-ring inline-block"></span> Board a Bus
+                </a>
+            </div>
+            <a href="passenger.html" class="md:hidden bg-emerald-500 text-slate-950 text-xs font-bold px-3 py-1.5 rounded-lg">Board</a>
         </div>
     </nav>
 
-    <!-- Hero -->
-    <div class="relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950 px-4 pt-10 pb-6">
-        <!-- Grid bg -->
-        <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(0,166,81,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,166,81,1) 1px, transparent 1px); background-size: 40px 40px;"></div>
-        <!-- Glow -->
-        <div class="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+    <!-- HERO — bus-hero.jpg (Kayoola EVS front, white, clean) -->
+    <div class="hero-bg flex flex-col justify-center pt-24 pb-16 px-4">
+        <div class="max-w-6xl mx-auto w-full">
+            <div class="max-w-2xl fade-up">
+                <!-- Live pill -->
+                <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-3 py-1.5 rounded-full mb-6 uppercase tracking-widest">
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full pulse-ring"></span>
+                    Live · Route E1 · Kampala Metropolitan Grid
+                </div>
 
-        <div class="relative max-w-xl mx-auto">
-            <!-- Live indicator -->
-            <div class="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs px-3 py-1.5 rounded-full mb-4">
-                <span class="w-2 h-2 bg-emerald-400 rounded-full pulse-ring"></span>
-                LIVE · Route E1 · Kampala Metropolitan Grid
-            </div>
+                <h1 class="clash text-5xl sm:text-6xl md:text-7xl text-white mb-4 leading-none">
+                    Powering<br>Uganda's<br><span class="text-emerald-400">Electric</span><br>Journey
+                </h1>
 
-            <h1 class="text-3xl sm:text-4xl font-black text-white leading-tight mb-3">
-                Powering Uganda's<br><span class="text-emerald-400">Electric Journey</span>
-            </h1>
-            <p class="text-slate-400 text-sm mb-6 leading-relaxed">
-                Real-time AI tracking for Kayoola EVS electric buses. Know exactly when your bus arrives — before you leave home.
-            </p>
+                <p class="text-slate-300 text-lg mb-8 leading-relaxed font-medium max-w-lg">
+                    Real-time AI tracking for Kayoola EVS electric buses. Know exactly when your bus arrives — before you leave home.
+                </p>
 
-            <!-- Bus animation -->
-            <div class="bg-slate-800/60 rounded-2xl border border-slate-700 p-3 mb-6 overflow-hidden relative" style="height:80px">
-                <!-- Road -->
-                <div class="absolute bottom-0 left-0 right-0 h-6 bg-slate-700/50"></div>
-                <div class="absolute bottom-3 left-0 right-0 flex gap-0 overflow-hidden">
-                    <div class="h-1 w-12 bg-yellow-400/60 rounded mr-8 road-line flex-shrink-0"></div>
-                    <div class="h-1 w-12 bg-yellow-400/60 rounded mr-8 road-line flex-shrink-0"></div>
-                    <div class="h-1 w-12 bg-yellow-400/60 rounded mr-8 road-line flex-shrink-0"></div>
-                    <div class="h-1 w-12 bg-yellow-400/60 rounded mr-8 road-line flex-shrink-0"></div>
+                <div class="flex flex-wrap gap-3 mb-10">
+                    <a href="admin.html" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-6 py-3.5 rounded-xl transition-all text-sm green-glow flex items-center gap-2">
+                        <i class="fas fa-map-marked-alt"></i> Open Live Map
+                    </a>
+                    <a href="passenger.html" class="bg-white/10 hover:bg-white/15 border border-white/20 hover:border-emerald-500/50 text-white font-semibold px-6 py-3.5 rounded-xl transition-all text-sm flex items-center gap-2">
+                        <i class="fas fa-qrcode"></i> Scan & Board
+                    </a>
                 </div>
-                <!-- Bus SVG -->
-                <div class="bus-anim absolute" style="bottom:16px;left:20px">
-                    <svg width="200" height="44" viewBox="0 0 200 44" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="4" y="2" width="186" height="36" rx="7" fill="#00A651"/>
-                        <rect x="4" y="16" width="186" height="10" fill="white" opacity="0.12"/>
-                        <rect x="14" y="6" width="24" height="14" rx="3" fill="#B3E5D1" opacity="0.9"/>
-                        <rect x="46" y="6" width="24" height="14" rx="3" fill="#B3E5D1" opacity="0.9"/>
-                        <rect x="78" y="6" width="24" height="14" rx="3" fill="#B3E5D1" opacity="0.9"/>
-                        <rect x="110" y="6" width="24" height="14" rx="3" fill="#B3E5D1" opacity="0.9"/>
-                        <rect x="142" y="6" width="24" height="14" rx="3" fill="#B3E5D1" opacity="0.9"/>
-                        <rect x="168" y="4" width="18" height="18" rx="3" fill="#7ECFB3" opacity="0.8"/>
-                        <circle cx="186" cy="9" r="3" fill="#FFD700"/>
-                        <circle cx="40" cy="41" r="7" fill="#1a1a2e"/><circle cx="40" cy="41" r="3" fill="#00A651"/>
-                        <circle cx="152" cy="41" r="7" fill="#1a1a2e"/><circle cx="152" cy="41" r="3" fill="#00A651"/>
-                        <text x="20" y="26" font-family="Arial" font-size="5.5" font-weight="bold" fill="white" opacity="0.9">E-BUS XPRESS · KAYOOLA EVS · ⚡WiFi·AC·CCTV</text>
-                        <ellipse cx="100" cy="44" rx="90" ry="4" fill="#00A651" opacity="0.15"/>
-                    </svg>
-                </div>
-            </div>
 
-            <!-- Stats bar -->
-            <div class="grid grid-cols-4 gap-2 mb-6">
-                <div class="bg-slate-800 rounded-xl p-2.5 text-center border border-slate-700">
-                    <div class="text-xl font-black text-white font-mono">8</div>
-                    <div class="text-[10px] text-slate-400 uppercase">Buses Live</div>
-                </div>
-                <div class="bg-slate-800 rounded-xl p-2.5 text-center border border-slate-700">
-                    <div class="text-xl font-black text-emerald-400 font-mono">E1</div>
-                    <div class="text-[10px] text-slate-400 uppercase">Route Active</div>
-                </div>
-                <div class="bg-slate-800 rounded-xl p-2.5 text-center border border-slate-700">
-                    <div class="text-xl font-black text-white font-mono" id="etaCounter">4<span class="text-xs">m</span></div>
-                    <div class="text-[10px] text-slate-400 uppercase">Next Bus</div>
-                </div>
-                <div class="bg-slate-800 rounded-xl p-2.5 text-center border border-emerald-500/30 bg-emerald-500/5">
-                    <div class="text-xl font-black text-yellow-400 font-mono">1.5K</div>
-                    <div class="text-[10px] text-slate-400 uppercase">UGX Fare</div>
+                <!-- Live stats -->
+                <div class="flex flex-wrap gap-3">
+                    <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 rounded-xl px-4 py-2.5 flex items-center gap-3">
+                        <div class="w-2 h-2 bg-emerald-400 rounded-full pulse-ring"></div>
+                        <div>
+                            <div class="text-white font-black text-lg font-mono leading-none">8</div>
+                            <div class="text-slate-400 text-[10px] uppercase tracking-wider">Buses Live</div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 rounded-xl px-4 py-2.5 flex items-center gap-3">
+                        <i class="fas fa-clock text-emerald-400 text-sm"></i>
+                        <div>
+                            <div class="text-white font-black text-lg font-mono leading-none" id="etaHero">4m</div>
+                            <div class="text-slate-400 text-[10px] uppercase tracking-wider">Next Bus · Nakawa</div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/80 backdrop-blur border border-yellow-500/20 rounded-xl px-4 py-2.5 flex items-center gap-3">
+                        <i class="fas fa-bolt text-yellow-400 text-sm"></i>
+                        <div>
+                            <div class="text-yellow-400 font-black text-lg font-mono leading-none">1,500</div>
+                            <div class="text-slate-400 text-[10px] uppercase tracking-wider">UGX Flat Fare</div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900/80 backdrop-blur border border-slate-700/60 rounded-xl px-4 py-2.5 flex items-center gap-3">
+                        <i class="fas fa-leaf text-emerald-400 text-sm"></i>
+                        <div>
+                            <div class="text-white font-black text-lg font-mono leading-none">0</div>
+                            <div class="text-slate-400 text-[10px] uppercase tracking-wider">Emissions</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Search -->
-    <div class="px-4 py-4 max-w-xl mx-auto w-full">
-        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-2">
-            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400">Where are you going today?</h2>
-            <div class="relative">
-                <input type="text" id="searchInput" placeholder="Search a stop — Nakawa, Wandegeya, Ntinda..." 
-                    class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3.5 pl-10 text-sm text-slate-200 focus:outline-none focus:border-emerald-500 transition-all">
-                <i class="fas fa-search absolute left-3.5 top-4 text-slate-500 text-sm"></i>
+    <!-- FLEET SHOWCASE — bus-kampala.jpg + bus-rear.jpg -->
+    <div class="py-16 px-4 bg-slate-950">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-8">
+                <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">The Fleet</span>
+                <h2 class="clash text-3xl sm:text-4xl text-white mt-1">Kayoola EVS <span class="text-emerald-400">on the streets</span></h2>
+                <p class="text-slate-400 mt-2 text-sm">Made in Uganda by Kiira Motors Corporation · 100% Electric · Zero Emissions</p>
             </div>
-            <div id="searchResults" class="space-y-1 mt-1"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <!-- bus-kampala.jpg — Bus in Kampala with sign -->
+                <div class="img-overlay h-64 md:h-80 card-hover cursor-pointer" onclick="window.location.href='admin.html'">
+                    <img src="bus-kampala.jpg" alt="Kayoola bus in Kampala">
+                    <div class="absolute bottom-0 left-0 right-0 z-10 p-5">
+                        <div class="text-white font-black text-xl clash">Route E1 Active</div>
+                        <div class="text-emerald-400 text-sm font-semibold">City Square → Wandegeya Loop</div>
+                    </div>
+                </div>
+
+                <!-- bus-rear.jpg — E-Bus Xpress rear green -->
+                <div class="img-overlay h-64 md:h-80 card-hover cursor-pointer" onclick="window.location.href='admin.html'">
+                    <img src="bus-rear.jpg" alt="E-Bus Xpress rear view">
+                    <div class="absolute bottom-0 left-0 right-0 z-10 p-5">
+                        <div class="text-white font-black text-xl clash">8 Buses Running</div>
+                        <div class="text-emerald-400 text-sm font-semibold">Dual circular rotations · All day</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- bus-dark.jpg — full width cinematic -->
+            <div class="img-overlay h-48 md:h-64 card-hover cursor-pointer" onclick="window.location.href='admin.html'" style="border-radius:16px">
+                <img src="bus-dark.jpg" alt="Kayoola bus night shot" style="width:100%;height:100%;object-fit:cover">
+                <div class="absolute bottom-0 left-0 right-0 z-10 p-5 flex items-end justify-between">
+                    <div>
+                        <div class="text-white font-black text-xl clash">300 Buses by 2027</div>
+                        <div class="text-slate-300 text-sm">Scaling to 14 cities across Uganda by 2031</div>
+                    </div>
+                    <a href="admin.html" class="bg-emerald-500 text-slate-950 font-bold text-xs px-4 py-2 rounded-lg flex-shrink-0">Track Live →</a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Active Corridors -->
-    <div class="px-4 pb-4 max-w-xl mx-auto w-full space-y-3">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500 px-1">Active Kayoola Corridors</h3>
+    <!-- ROUTE E1 -->
+    <div class="py-16 px-4 bg-slate-900/50">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-8">
+                <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Active Route</span>
+                <h2 class="clash text-3xl sm:text-4xl text-white mt-1">Route E1 — <span class="text-emerald-400">Kampala CBD Loop</span></h2>
+            </div>
 
-        <!-- Route E1 -->
-        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3 hover:border-emerald-500/40 transition-all cursor-pointer" onclick="window.location.href='admin.html'">
-            <div class="flex justify-between items-start">
+            <div class="bg-slate-900 rounded-2xl border border-slate-800 p-5 mb-4 card-hover cursor-pointer" onclick="window.location.href='admin.html'">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="w-3 h-3 bg-emerald-500 rounded-full pulse-ring"></div>
+                            <h3 class="font-black text-white text-lg clash">City Square ↔ Wandegeya via Nakawa</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm">Dual circular loop · 6:30 AM — 7:00 PM · Every 15–30 min</p>
+                    </div>
+                    <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-lg font-mono font-bold flex-shrink-0 border border-emerald-500/20">8 LIVE</span>
+                </div>
+
+                <!-- Stop timeline -->
+                <div class="flex items-center gap-0 overflow-x-auto scrollbar-hide pb-2">
+                    <div class="flex flex-col items-center flex-shrink-0">
+                        <div class="w-4 h-4 bg-yellow-400 rounded-full ring-4 ring-yellow-400/20"></div>
+                        <div class="text-xs font-bold text-yellow-400 mt-2 whitespace-nowrap">City Square</div>
+                        <div class="text-[10px] text-slate-500">Terminal</div>
+                    </div>
+                    <div class="flex-1 min-w-8 h-0.5 bg-emerald-500/50 mx-1 flex-shrink-0" style="min-width:32px">
+                        <div class="text-[9px] text-emerald-400 text-center -mt-3 whitespace-nowrap">800 UGX</div>
+                    </div>
+                    <div class="flex flex-col items-center flex-shrink-0">
+                        <div class="w-3 h-3 bg-slate-700 border-2 border-emerald-500 rounded-full"></div>
+                        <div class="text-xs font-semibold text-slate-300 mt-2 whitespace-nowrap">Nakawa</div>
+                    </div>
+                    <div class="flex-1 min-w-8 h-0.5 bg-emerald-500/50 mx-1 flex-shrink-0" style="min-width:32px">
+                        <div class="text-[9px] text-emerald-400 text-center -mt-3 whitespace-nowrap">800 UGX</div>
+                    </div>
+                    <div class="flex flex-col items-center flex-shrink-0">
+                        <div class="w-3 h-3 bg-slate-700 border-2 border-emerald-500 rounded-full"></div>
+                        <div class="text-xs font-semibold text-slate-300 mt-2 whitespace-nowrap">Ntinda</div>
+                    </div>
+                    <div class="flex-1 min-w-8 h-0.5 bg-emerald-500/50 mx-1 flex-shrink-0" style="min-width:32px">
+                        <div class="text-[9px] text-emerald-400 text-center -mt-3 whitespace-nowrap">800 UGX</div>
+                    </div>
+                    <div class="flex flex-col items-center flex-shrink-0">
+                        <div class="w-3 h-3 bg-slate-700 border-2 border-emerald-500 rounded-full"></div>
+                        <div class="text-xs font-semibold text-slate-300 mt-2 whitespace-nowrap">Bukoto</div>
+                    </div>
+                    <div class="flex-1 min-w-8 h-0.5 bg-emerald-500/50 mx-1 flex-shrink-0" style="min-width:32px">
+                        <div class="text-[9px] text-emerald-400 text-center -mt-3 whitespace-nowrap">800 UGX</div>
+                    </div>
+                    <div class="flex flex-col items-center flex-shrink-0">
+                        <div class="w-3 h-3 bg-slate-700 border-2 border-emerald-500 rounded-full"></div>
+                        <div class="text-xs font-semibold text-slate-300 mt-2 whitespace-nowrap">Kamwokya</div>
+                    </div>
+                    <div class="flex-1 min-w-8 h-0.5 bg-emerald-500/50 mx-1 flex-shrink-0" style="min-width:32px">
+                        <div class="text-[9px] text-emerald-400 text-center -mt-3 whitespace-nowrap">800 UGX</div>
+                    </div>
+                    <div class="flex flex-col items-center flex-shrink-0">
+                        <div class="w-4 h-4 bg-yellow-400 rounded-full ring-4 ring-yellow-400/20"></div>
+                        <div class="text-xs font-bold text-yellow-400 mt-2 whitespace-nowrap">Wandegeya</div>
+                        <div class="text-[10px] text-slate-500">Terminal</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-5">
+                    <div class="bg-slate-800 rounded-xl p-3 text-center">
+                        <div class="text-white font-bold text-sm">6:30 AM</div>
+                        <div class="text-slate-500 text-[10px] uppercase">First Bus</div>
+                    </div>
+                    <div class="bg-slate-800 rounded-xl p-3 text-center">
+                        <div class="text-white font-bold text-sm">7:00 PM</div>
+                        <div class="text-slate-500 text-[10px] uppercase">Last Bus</div>
+                    </div>
+                    <div class="bg-slate-800 rounded-xl p-3 text-center">
+                        <div class="text-emerald-400 font-bold text-sm">15–30 min</div>
+                        <div class="text-slate-500 text-[10px] uppercase">Frequency</div>
+                    </div>
+                    <div class="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-3 text-center">
+                        <div class="text-emerald-400 font-black text-sm">1,500 UGX</div>
+                        <div class="text-slate-500 text-[10px] uppercase">Flat Fare</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Amenities -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center gap-3 card-hover">
+                    <i class="fas fa-wifi text-emerald-400"></i>
+                    <div><div class="text-white text-sm font-semibold">Free WiFi</div><div class="text-slate-500 text-[10px]">Onboard</div></div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center gap-3 card-hover">
+                    <i class="fas fa-snowflake text-blue-400"></i>
+                    <div><div class="text-white text-sm font-semibold">Air Con</div><div class="text-slate-500 text-[10px]">Climate control</div></div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center gap-3 card-hover">
+                    <i class="fas fa-camera text-purple-400"></i>
+                    <div><div class="text-white text-sm font-semibold">CCTV</div><div class="text-slate-500 text-[10px]">Full coverage</div></div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center gap-3 card-hover">
+                    <i class="fas fa-plug text-yellow-400"></i>
+                    <div><div class="text-white text-sm font-semibold">USB Charging</div><div class="text-slate-500 text-[10px]">Every seat</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div class="py-12 px-4 bg-slate-950">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-gradient-to-r from-emerald-950/60 to-slate-900 border border-emerald-800/40 rounded-2xl p-6">
+                <h3 class="clash text-2xl text-white mb-1">Pay via Mobile Money</h3>
+                <p class="text-slate-400 text-sm mb-5">Cashless only · No cash accepted on board</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="bg-slate-900 rounded-xl p-4 border border-slate-800">
+                        <div class="text-red-400 font-bold mb-1 flex items-center gap-2"><i class="fas fa-mobile-alt"></i> Airtel Money</div>
+                        <div class="text-slate-300 text-sm font-mono">Dial *185*9#</div>
+                        <div class="text-slate-500 text-xs mt-1">Merchant Code: 4405648</div>
+                    </div>
+                    <div class="bg-slate-900 rounded-xl p-4 border border-slate-800">
+                        <div class="text-yellow-400 font-bold mb-1 flex items-center gap-2"><i class="fas fa-mobile-alt"></i> MTN MoMo</div>
+                        <div class="text-slate-300 text-sm font-mono">Dial *165*22#</div>
+                        <div class="text-slate-500 text-xs mt-1">Merchant Code: 594434</div>
+                    </div>
+                    <div class="bg-slate-900 rounded-xl p-4 border border-emerald-500/20">
+                        <div class="text-emerald-400 font-bold mb-1 flex items-center gap-2"><i class="fas fa-credit-card"></i> KaCyber Go Card</div>
+                        <div class="text-slate-300 text-sm font-mono">Dial *217*88#</div>
+                        <div class="text-slate-500 text-xs mt-1">Top up your transit card</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VISION -->
+    <div class="py-16 px-4 bg-slate-900/40 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto text-center">
+            <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">The Vision</span>
+            <h2 class="clash text-3xl sm:text-4xl text-white mt-2 mb-10">Uganda's Electric Future</h2>
+            <div class="flex items-center justify-center gap-4 flex-wrap">
+                <div class="text-center">
+                    <div class="clash text-5xl text-white">8</div>
+                    <div class="text-slate-400 text-xs uppercase mt-1">Buses Today</div>
+                </div>
+                <i class="fas fa-arrow-right text-emerald-500 text-xl"></i>
+                <div class="text-center">
+                    <div class="clash text-5xl text-white">300</div>
+                    <div class="text-slate-400 text-xs uppercase mt-1">By 2027</div>
+                </div>
+                <i class="fas fa-arrow-right text-emerald-500 text-xl"></i>
+                <div class="text-center">
+                    <div class="clash text-5xl text-white">1,500</div>
+                    <div class="text-slate-400 text-xs uppercase mt-1">By 2031</div>
+                </div>
+                <i class="fas fa-arrow-right text-emerald-500 text-xl"></i>
+                <div class="text-center">
+                    <div class="clash text-5xl text-emerald-400">14</div>
+                    <div class="text-slate-400 text-xs uppercase mt-1">Cities</div>
+                </div>
+            </div>
+            <p class="text-slate-500 text-sm mt-8 max-w-lg mx-auto italic">"Uganda is not just imagining the future of transport. We are building it." — Dr. Monica Musenero</p>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 border-t border-slate-800 px-4 py-10">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-2 sm:col-span-1">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="bg-emerald-500 text-slate-950 font-black px-2 py-0.5 rounded text-lg">Y</div>
+                        <span class="font-black text-white text-lg">Yitayo</span>
+                    </div>
+                    <p class="text-slate-500 text-xs leading-relaxed">Powering Uganda's Electric Journey. Built for Kiira Motors Corporation.</p>
+                </div>
                 <div>
-                    <div class="flex items-center gap-2 mb-1">
-                        <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
-                        <h4 class="font-bold text-white">Route E1 — Kampala CBD Loop</h4>
-                    </div>
-                    <p class="text-xs text-slate-400">City Square · Nakawa · Ntinda · Bukoto · Kamwokya · Wandegeya</p>
-                </div>
-                <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2 py-0.5 rounded font-mono font-bold flex-shrink-0">8 LIVE</span>
-            </div>
-            
-            <!-- Stop timeline -->
-            <div class="border-l-2 border-emerald-500/30 ml-2 pl-4 space-y-2.5 pt-1 text-xs">
-                <div class="relative">
-                    <span class="absolute -left-[21px] top-0.5 bg-emerald-500 w-2.5 h-2.5 rounded-full ring-4 ring-emerald-950"></span>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-200 font-semibold">City Square</span>
-                        <span class="text-emerald-400 font-mono font-bold">KB-03 arriving in 4 mins</span>
+                    <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Platform</h4>
+                    <div class="space-y-2">
+                        <a href="admin.html" class="block text-slate-400 hover:text-emerald-400 text-sm transition-colors">Live Tracking</a>
+                        <a href="analytics.html" class="block text-slate-400 hover:text-emerald-400 text-sm transition-colors">Analytics</a>
+                        <a href="driver.html" class="block text-slate-400 hover:text-emerald-400 text-sm transition-colors">Driver Console</a>
+                        <a href="qr-matrix.html" class="block text-slate-400 hover:text-emerald-400 text-sm transition-colors">QR Matrix</a>
                     </div>
                 </div>
-                <div class="relative">
-                    <span class="absolute -left-[21px] top-0.5 bg-emerald-500 w-2.5 h-2.5 rounded-full ring-4 ring-emerald-950"></span>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-300 font-medium">Nakawa Stage</span>
-                        <span class="text-emerald-400 font-mono font-bold">KB-01 here now</span>
-                    </div>
-                </div>
-                <div class="relative">
-                    <span class="absolute -left-[21px] top-0.5 bg-slate-700 w-2.5 h-2.5 rounded-full ring-4 ring-slate-950"></span>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-400">Ntinda</span>
-                        <span class="text-slate-500 font-mono">KB-02 in 8 mins</span>
-                    </div>
-                </div>
-                <div class="relative">
-                    <span class="absolute -left-[21px] top-0.5 bg-slate-700 w-2.5 h-2.5 rounded-full ring-4 ring-slate-950"></span>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-400">Bukoto</span>
-                        <span class="text-slate-500 font-mono">KB-04 in 12 mins</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-2 pt-1">
-                <div class="flex-1 bg-slate-800 rounded-lg p-2 text-center">
-                    <div class="text-xs font-bold text-white">6:30 AM</div>
-                    <div class="text-[10px] text-slate-500">First Bus</div>
-                </div>
-                <div class="flex-1 bg-slate-800 rounded-lg p-2 text-center">
-                    <div class="text-xs font-bold text-white">7:00 PM</div>
-                    <div class="text-[10px] text-slate-500">Last Bus</div>
-                </div>
-                <div class="flex-1 bg-slate-800 rounded-lg p-2 text-center">
-                    <div class="text-xs font-bold text-emerald-400">15-30min</div>
-                    <div class="text-[10px] text-slate-500">Frequency</div>
-                </div>
-                <div class="flex-1 bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-2 text-center">
-                    <div class="text-xs font-bold text-emerald-400">1,500 UGX</div>
-                    <div class="text-[10px] text-slate-500">Flat Fare</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Iganga-Jinja -->
-        <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3 hover:border-blue-500/40 transition-all cursor-pointer" onclick="window.location.href='admin.html'">
-            <div class="flex justify-between items-start">
                 <div>
-                    <div class="flex items-center gap-2 mb-1">
-                        <div class="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
-                        <h4 class="font-bold text-white">Iganga → Jinja Intercity</h4>
-                    </div>
-                    <p class="text-xs text-slate-400">Scheduled service · 6 daily departures</p>
-                </div>
-                <span class="bg-blue-500/10 text-blue-400 text-xs px-2 py-0.5 rounded font-mono font-bold flex-shrink-0">INTERCITY</span>
-            </div>
-            
-            <div class="border-l-2 border-blue-500/30 ml-2 pl-4 space-y-2.5 pt-1 text-xs">
-                <div class="relative">
-                    <span class="absolute -left-[21px] top-0.5 bg-blue-500 w-2.5 h-2.5 rounded-full ring-4 ring-blue-950"></span>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-200 font-semibold">Iganga Departs</span>
-                        <span class="text-blue-400 font-mono font-bold">11:00 AM en route</span>
+                    <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Routes</h4>
+                    <div class="space-y-2">
+                        <a href="admin.html" class="block text-slate-400 hover:text-emerald-400 text-sm transition-colors">Route E1 — Kampala</a>
+                        <a href="admin.html" class="block text-slate-400 hover:text-emerald-400 text-sm transition-colors">Iganga → Jinja</a>
+                        <span class="block text-slate-600 text-sm">Entebbe (Coming)</span>
+                        <span class="block text-slate-600 text-sm">Makerere (Coming)</span>
                     </div>
                 </div>
-                <div class="relative">
-                    <span class="absolute -left-[21px] top-0.5 bg-slate-700 w-2.5 h-2.5 rounded-full ring-4 ring-slate-950"></span>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-400">EAT Jinja/Clive Rd</span>
-                        <span class="text-slate-500 font-mono">12:30 PM est.</span>
-                    </div>
-                </div>
-                <div class="relative">
-                    <span class="absolute -left-[21px] top-0.5 bg-slate-700 w-2.5 h-2.5 rounded-full ring-4 ring-slate-950"></span>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-400">Next departure</span>
-                        <span class="text-yellow-400 font-mono">1:00 PM</span>
+                <div>
+                    <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Contact</h4>
+                    <div class="space-y-2">
+                        <a href="mailto:help@ebusxpress.com" class="block text-slate-400 hover:text-emerald-400 text-xs transition-colors">help@ebusxpress.com</a>
+                        <a href="tel:+256780772772" class="block text-slate-400 hover:text-emerald-400 text-xs transition-colors">+256 780 772 772</a>
+                        <a href="https://ebusxpress.com" class="block text-slate-400 hover:text-emerald-400 text-xs transition-colors">www.ebusxpress.com</a>
                     </div>
                 </div>
             </div>
-
-            <div class="bg-slate-800 rounded-lg p-2.5 text-xs text-slate-400 flex items-center gap-2">
-                <i class="fas fa-credit-card text-emerald-400"></i>
-                Pay via MTN MoMo (*165*22# · 594434) or Airtel (*185*9# · 4405648) or KaCyber Go Card
+            <div class="border-t border-slate-800 pt-6 flex flex-wrap justify-between items-center gap-2 text-xs text-slate-600">
+                <span>© 2026 Yitayo · Kiira Motors Corporation · Republic of Uganda</span>
+                <span>Built with ⚡ in Uganda</span>
             </div>
         </div>
-    </div>
-
-    <!-- Bottom CTA -->
-    <div class="bg-emerald-950/40 border-t border-emerald-800/50 p-4 text-center space-y-2 mt-auto">
-        <p class="text-xs text-emerald-300 font-medium">Already seated inside a Kayoola e-Bus right now?</p>
-        <button onclick="window.location.href='passenger.html'" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-sm font-bold px-6 py-2.5 rounded-xl transition-all tracking-wide">
-            ⚡ Scan Dashboard QR Code & Check In
-        </button>
-    </div>
+    </footer>
 
 <script src="app.js"></script>
 <script>
-// Search stops
-const stops = ["City Square","Nakawa","Ntinda","Bukoto","Kamwokya","Wandegeya","Iganga","Jinja"];
-document.getElementById('searchInput').addEventListener('input', function() {
-    const q = this.value.toLowerCase();
-    const res = document.getElementById('searchResults');
-    if (!q) { res.innerHTML = ''; return; }
-    const matches = stops.filter(s => s.toLowerCase().includes(q));
-    res.innerHTML = matches.map(s => `
-        <div onclick="window.location.href='admin.html'" class="flex items-center gap-2 p-2 bg-slate-800 rounded-lg cursor-pointer hover:bg-slate-700 transition-all text-sm">
-            <i class="fas fa-map-marker-alt text-emerald-400 text-xs w-4"></i>
-            <span>${s}</span>
-        </div>`).join('');
-});
-
-// Countdown ETA
 let eta = 4;
 setInterval(() => {
     if (eta > 1) eta--;
-    const el = document.getElementById('etaCounter');
-    if (el) el.innerHTML = eta + '<span class="text-xs">m</span>';
+    const el = document.getElementById('etaHero');
+    if (el) el.textContent = eta + 'm';
 }, 30000);
 </script>
 </body>
