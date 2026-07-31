@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgis/postgis:15-3.4
+    container_name: yitayo-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: yitayo_db
+      POSTGRES_USER: yitayo_user
+      POSTGRES_PASSWORD: yitayo_secure_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U yitayo_user -d yitayo_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: yitayo-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yitayo-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://yitayo_user:yitayo_secure_pass@postgres:5432/yitayo_db
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_API_KEY: ${ADMIN_API_KEY}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - ./logs:/app/logs
+
+volumes:
+  postgres_data:
+  redis_data:
