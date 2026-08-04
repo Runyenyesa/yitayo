@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitayo - Driver Console</title>
-    <script src="https://tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4">
 
@@ -71,5 +71,23 @@
         BROADCAST MECHANICAL FAULT ALERT TO MoWT
     </button>
  <script src="app.js"></script>
+ <script>
+ document.addEventListener('DOMContentLoaded', () => {
+     const scanBtn = document.querySelector('button:has(span)');
+     if (scanBtn) {
+         scanBtn.addEventListener('click', async () => {
+             try {
+                 await fetch('http://localhost:3000/api/driver/shift/end', {
+                     method: 'POST',
+                     headers: { 'Content-Type': 'application/json' },
+                     body: JSON.stringify({ driverId: '4092', busAssetId: 'KB-01' })
+                 });
+             } catch (e) {
+                 // Offline fallback
+             }
+         });
+     }
+ });
+ </script>
 </body>
 </html>

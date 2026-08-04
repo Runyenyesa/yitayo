@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitayo - EV Telemetry Analytics</title>
-    <script src="https://tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans min-h-screen p-4 md:p-6 space-y-6">
 
@@ -107,5 +107,17 @@
 
     </div>
  <script src="app.js"></script>
+ <script>
+ window.addEventListener('DOMContentLoaded', async () => {
+     try {
+         await Promise.all([
+             fetch('http://localhost:3000/api/analytics/energy'),
+             fetch('http://localhost:3000/api/analytics/depot-status')
+         ]);
+     } catch (e) {
+         // Offline fallback
+     }
+ });
+ </script>
 </body>
 </html>

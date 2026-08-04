@@ -60,9 +60,9 @@ document.addEventListener("DOMContentLoaded", () => {
  */
 function setupSpecialPageTriggers(pageName) {
     // If we are on the public explorer landing page
-    if (pageName === "index.html" || pageName === "") {
+    if (pageName === "index.html" || pageName === "explore.html" || pageName === "") {
         // Look for the Active Corridor cards
-        const routeCards = document.querySelectorAll(".bg-slate-900.p-4.rounded-xl");
+        const routeCards = document.querySelectorAll(".card-hover, .bg-slate-900.rounded-2xl");
         routeCards.forEach(card => {
             card.style.cursor = "pointer";
             card.addEventListener("click", () => {
@@ -73,7 +73,7 @@ function setupSpecialPageTriggers(pageName) {
     }
 
     // Add a subtle Home navigation shortcut to the app logo banner on all pages
-    const logoBranding = document.querySelector(".bg-emerald-500, .font-black");
+    const logoBranding = document.querySelector("#app-logo");
     if (logoBranding) {
         logoBranding.style.cursor = "pointer";
         logoBranding.addEventListener("click", () => {

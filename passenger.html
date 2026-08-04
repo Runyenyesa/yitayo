@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yitayo - Passenger Portal</title>
-    <script src="https://tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col justify-between p-4">
 
@@ -65,5 +65,23 @@
         </button>
     </div>
  <script src="app.js"></script>
+ <script>
+ window.addEventListener('DOMContentLoaded', async () => {
+     try {
+         await fetch('http://localhost:3000/api/passenger/checkin', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify({
+                 busAssetId: 'KB-01',
+                 lat: 0.3190,
+                 lng: 32.5900,
+                 passengerToken: 'ptok-' + Math.random().toString(36).substring(2, 9)
+             })
+         });
+     } catch (e) {
+         // Offline fallback
+     }
+ });
+ </script>
 </body>
 </html>

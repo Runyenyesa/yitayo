@@ -10,9 +10,9 @@
   },
   "modules": [
     {
-      "file": "index.html",
+      "file": "explore.html",
       "scope": "Public Commuter Portal",
-      "description": "Corridor tracking analytics and live passenger route ETA updates."
+      "description": "Corridor tracking analytics and live passenger route ETA updates (index.html serves as redirect entry point)."
     },
     {
       "file": "passenger.html",

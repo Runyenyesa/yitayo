@@ -6,7 +6,7 @@ The defining core constraint of this project is **Zero-Hardware tracking**. Trad
 
 ---
 
-## 🧭 How the Tracking System Functions
+##  How the Tracking System Functions
 
 Yitayo divides its tracking lifecycle into two distinct execution paths to achieve continuous remote asset location logs without active onboard hardware trackers:
 
@@ -24,11 +24,11 @@ When the bus is empty and crowdsourcing goes completely dark, administrative wor
 
 ---
 
-## 📂 Repository Directory Layout & View States
+##Repository Directory Layout & View States 📂 
 
 Our current frontend wireframe collection relies on a zero-cost mapping layout powered by **Tailwind CSS** and **Leaflet.js** to handle interactive rendering without API token fee footprints:
 
-* **`index.html`** *(The Public Commuter Portal)*: Public landing layout featuring localized route searches, active transit corridors, and live route ETA calculations.
+* **`explore.html`** *(The Public Commuter Portal)*: Public landing layout featuring localized route searches, active transit corridors, and live route ETA calculations (with **`index.html`** acting as the entry point redirecting to `explore.html`).
 * **`passenger.html`** *(The Mobile Scan Anchor Page)*: Triggered upon physical QR interaction inside the vehicle cabin; displays connection status confirmation and handles background telemetry initialization.
 * **`driver.html`** *(The Operator Console Terminal)*: Dashboard interface containing real-time active route metrics, passenger anchor tracking counters, and the nighttime shift-close protocol modules.
 * **`admin.html`** *(The MoWT Control Room Grid)*: Centralized Ministry dashboard executing dynamic map zooms and tracking node updates across Kampala Central coordinate bounds.
@@ -38,7 +38,7 @@ Our current frontend wireframe collection relies on a zero-cost mapping layout p
 
 ---
 
-## 🛠️ Onboarding Instructions for New Contributors
+##  Onboarding Instructions for New Contributors
 
 ### Local Execution & Testing Flow
 To map and test the prototype navigation journey locally:
